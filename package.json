@@ -1,7 +1,7 @@
 {
-  "name": "nodejs",
+  "name": "Ayami Mikazuki",
   "version": "1.0.0",
-  "description": "",
+  "description": "Uma robô feita por ThallesKraft",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/node": "^18.0.6",
     "colors": "^1.4.0",
+    "mongoose": "^7.6.3",
     "node-fetch": "^3.2.6",
     "websocket": "^1.0.34"
   }

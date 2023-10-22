@@ -28,6 +28,15 @@ module.exports = {
     rolesGet: (guildId) => {
       return `/guilds/${guildId}/roles`
     }
+  },
+  
+   /////////////////// INTERACTION ////////
+
+  interaction: {
+    response: (interactionId, interactionToken) => {
+      return `/interactions/${interactionId}/${interactionToken}/callback`
+    }
   }
+
   
 }
