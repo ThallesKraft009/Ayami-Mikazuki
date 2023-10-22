@@ -13,6 +13,21 @@ module.exports = {
     info: (userId) => {
       return `/users/${userId}`
     }
+  },
+
+  ///////////// GUILD ///////////////////
+  guild: {
+    get: (guildId) => {
+      return `/guilds/${guildId}`
+    },
+    
+    userGet: (guildId, userId) => {
+      return `/guilds/${guildId}/members/${userId}`
+    },
+
+    rolesGet: (guildId) => {
+      return `/guilds/${guildId}/roles`
+    }
   }
   
 }

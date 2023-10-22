@@ -19,7 +19,7 @@ const payload = {
   },
 };
 
-const gatewayURL = 'wss://gateway.discord.gg/?v=9&encoding=json';
+const gatewayURL = 'wss://gateway.discord.gg/?v=10&encoding=json';
 const ws = new WebSocket(gatewayURL);
 let heartbeatInterval = null;
 let reconnectAttempts = 0;
