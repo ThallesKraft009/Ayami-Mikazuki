@@ -1,12 +1,13 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
+const db = require("../../../mongodb/user.js");
 
 module.exports = {
   customId: "daily",
   run: async function(interaction, id) {
    // console.log(interaction)
 
-    let verf = id.replace("daily", "");
+    let verf = id.replace("daily_", "");
     if (interaction.member.user.id !== verf){
      await DiscordRequest(
         CALLBACK.interaction.response(
