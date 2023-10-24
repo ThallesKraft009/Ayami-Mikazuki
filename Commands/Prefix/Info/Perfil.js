@@ -1,6 +1,8 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
 const { db } = require("../../../mongodb/user.js");
+const { QuickDB } = require("quick.db");
+const quickdb = new QuickDB();
 
 module.exports = {
   name: "perfil",
@@ -80,6 +82,8 @@ module.exports = {
       }]
     }]
 
+   await quickdb.set(`perfilSelect_${message.author.id}`, user.id)
+    
     await DiscordRequest(CALLBACK.message.response(message.channel_id), {
       method: 'POST',
       body: {

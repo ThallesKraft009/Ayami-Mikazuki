@@ -1,6 +1,8 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
 const { db } = require("../../../mongodb/user.js");
+const { QuickDB } = require("quick.db");
+const quickdb = new QuickDB();
 
 module.exports = {
   customId: "perfil",
@@ -23,18 +25,20 @@ module.exports = {
       }
       })
     }
+let userId = await quickdb.get(`perfilSelect_${interaction.member.user.id}`)
+    
 
    // console.log(interaction)
 
     let userdb = await db.findOne({
-         userID: interaction.member.user.id
+         userID: userId
      })
       
      if(!userdb){
-         const newuser = new db({ userID: interaction.member.user.id })
+         const newuser = new db({ userID: userId })
          await newuser.save();
          
-         userdb = await db.findOne({ userID: interaction.member.user.id })
+         userdb = await db.findOne({ userID: userId })
      }
 
     let option = interaction.data.values[0];
@@ -66,7 +70,53 @@ module.exports = {
          }
       }
     )
+    } else if (option === "1"){
+
+      let time = userdb.economia.daily_time;
+      let texto = "";
+      if (time === 0) {
+        texto = `O usuário já pode coletar o Daily novamente.`
+      } else {
+
+        const calc = time - Date.now();
+        
+        texto = `${ms(calc).hours} horas, ${ms(calc).minutes} minutos e ${ms(calc).seconds} segundos.`;
+      }
+
+      let embed = {
+        title: "Cooldowns em Andamento",
+        fields: [{
+          name: "Tempo de Daily",
+          value: `\`${texto}\``
+        }],
+        color: 16776960
+      };
+
+      
+      await DiscordRequest(CALLBACK.interaction.response(
+      interaction.id, interaction.token
+      ), {
+         method: "POST",
+         body: {
+           type: 4,
+           data: {
+             content: `<@${interaction.member.user.id}>`,
+             embeds: [embed],
+             flags: 64
+           }
+         }
+      }
+    )
     }
-    
   }
-          }
+}
+
+
+      function ms(ms) {
+  const seconds = ~~(ms/1000)
+  const minutes = ~~(seconds/60)
+  const hours = ~~(minutes/60)
+  const days = ~~(hours/24)
+
+  return { days, hours: hours%24, minutes: minutes%60, seconds: seconds%60 }
+                                               }
