@@ -1,17 +1,31 @@
 const fs = require("fs");
 
-const botoes = [];
-fs.readdirSync(`./components/button/`).forEach(dir => {
-    const files = fs.readdirSync(`./components/button/${dir}/`).filter(file => file.endsWith('.js'));
+const components = [];
+fs.readdirSync(`./interactions/components/`).forEach(dir => {
+    const files = fs.readdirSync(`./interactions/components/${dir}/`).filter(file => file.endsWith('.js'));
 
     files.forEach((file) => {
-        let button = require(`../../components/button/${dir}/${file}`)
+        let i = require(`../../interactions/components/${dir}/${file}`)
 
-        if (button) {
-            botoes.push(button);
+        if (i) {
+            components.push(i);
         }
     })
 })
+
+const modals = [];
+fs.readdirSync(`./interactions/modals/`).forEach(dir => {
+    const files = fs.readdirSync(`./interactions/modals/${dir}/`).filter(file => file.endsWith('.js'));
+
+    files.forEach((file) => {
+        let modal = require(`../../interactions/modals/${dir}/${file}`)
+
+        if (modal) {
+            modals.push(modal);
+        }
+    })
+})
+
 
 const Interaction = async (data) => {
 
@@ -19,10 +33,16 @@ const Interaction = async (data) => {
 
         let id = data.d.data.custom_id;
 
-        let botao = botoes.find(button => id.startsWith(button.customId));
+        let component = components.find(i => id.startsWith(i.customId));
 
-       botao.run(data.d, id)
+       component.run(data.d, id)
 
+    } else if (data.d.type === 5){
+      let id = data.d.data.custom_id;
+
+      let modal = modals.find(i => id.startsWith(i.customId));
+
+      modal.run(data.d, id)
     }
 
 }
