@@ -1,6 +1,6 @@
 module.exports = {
   data: {
-    name: "bot",
+    name: "bot-info",
     description: "Veja minhas informações",
     type: 1
   },

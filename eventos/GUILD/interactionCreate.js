@@ -45,10 +45,12 @@ const Interaction = async (data, commands) => {
       modal.run(data.d, id)
     } else if (data.d.type === 2){
 
-      let cmd = commands[data.data.name];
+  //    console.log(data.d)
+
+      let cmd = commands[data.d.data.name];
 
       try {
-        cmd.run(data);
+        cmd.run(data.d);
       } catch (err) {
         console.log(err)
       }

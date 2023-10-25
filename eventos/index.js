@@ -5,7 +5,7 @@ const DiscordRequest = require("../settings/request.js");
 const fs = require("fs");
 const { Prefix } = require("./GUILD/messageCreate.js");
 const { Interaction } = require("./GUILD/interactionCreate.js");
-
+const c = require("colors");
 const commands = [];
 const commandsData = [];
 const commandsJson = [];
@@ -17,7 +17,7 @@ fs.readdirSync(`./Commands/Slash/`).forEach(dir => {
         let cmd = require(`../Commands/Slash/${dir}/${file}`)
 
         if (cmd) {
-            commands[cmd.name] = cmd;
+            commands[cmd.data.name] = cmd;
             commandsData.push(cmd.data);
         }
     })
@@ -39,9 +39,11 @@ module.exports = async(data) => {
     cmdOld.map(async(cmd) => {
 
       await DiscordRequest(CALLBACK.interaction.commandsDelete(clientId, cmd.id),{
-        methor: "DELETE"
+        method: "DELETE"
       })
     })
+
+    console.log(c.yellow("Registrando slashcommand...."))
 
       commandsData.map(async(command) => {
 
@@ -55,6 +57,8 @@ module.exports = async(data) => {
         commandsJson.push(cmd);
 
       })
+
+    console.log(c.green("SlashCommands registrados"))
 
 
    // console.log(commandsJson)
