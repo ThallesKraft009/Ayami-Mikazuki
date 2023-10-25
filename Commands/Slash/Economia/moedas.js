@@ -1,5 +1,6 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
+const { db } = require("../../../mongodb/user.js");
 
 module.exports = {
   data: {
@@ -18,7 +19,7 @@ module.exports = {
         name: "membro",
         description: "Insira o ID ou mencione",
         type: 6,
-        required: true
+        required: false
       }]
     }]
   },
@@ -52,6 +53,61 @@ module.exports = {
         }
       }
       })
+    } else if (option === "atm"){
+
+      let userId;
+      //= interaction.data.options[0].options[0].value;
+
+      if (interaction.data.options[0].options.length == 0){
+
+        userId = interaction.member.user.id;
+        
+      } else {
+        userId = interaction.data.options[0].options[0].value;
+        
+      }
+
+      let userdb = await db.findOne({
+         userID: userId
+     })
+      
+     if(!userdb){
+         const newuser = new db({ userID: userId })
+         await newuser.save();
+         
+         userdb = await db.findOne({ userID: userId })
+        }
+
+        const rankedUsers = await db.find({
+              "economia.moedas": { 
+                $gt: 0 
+              }
+            })
+                .sort({ 
+                  "economia.moedas": -1 
+                })
+                .exec();
+    
+            let userPosition = rankedUsers.findIndex(user => user.userID === userdb.userID) + 1;
+
+            if (userdb.economia.moedas === 0) {
+           userPosition = rankedUsers.length + 1;
+          }
+
+      await DiscordRequest(
+        CALLBACK.interaction.response(
+          interaction.id, interaction.token
+        ), {
+          method: "POST",
+          body: {
+            type: 4,
+            data: {
+              content: `<@${userId}> tem **\`${userdb.economia.moedas}\`** moedas e está na posição #${userPosition} do rank!`
+            }
+          }
+        }
+      )
+      
     }
   }
 }
