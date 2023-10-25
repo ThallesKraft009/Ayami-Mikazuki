@@ -27,7 +27,7 @@ fs.readdirSync(`./interactions/modals/`).forEach(dir => {
 })
 
 
-const Interaction = async (data) => {
+const Interaction = async (data, commands) => {
 
     if (data.d.type === 3) {
 
@@ -43,6 +43,15 @@ const Interaction = async (data) => {
       let modal = modals.find(i => id.startsWith(i.customId));
 
       modal.run(data.d, id)
+    } else if (data.d.type === 2){
+
+      let cmd = commands[data.data.name];
+
+      try {
+        cmd.run(data);
+      } catch (err) {
+        console.log(err)
+      }
     }
 
 }

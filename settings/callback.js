@@ -35,6 +35,14 @@ module.exports = {
   interaction: {
     response: (interactionId, interactionToken) => {
       return `/interactions/${interactionId}/${interactionToken}/callback`
+    },
+
+    commands: (clientId) => {
+      return `/applications/${clientId}/commands`
+    },
+
+    commandsDelete: (clientId, cmdId) => {
+      return `/applications/${clientId}/commands/${cmdId}`
     }
   }
 
