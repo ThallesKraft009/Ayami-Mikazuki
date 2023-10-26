@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
   token: process.env.token,
   clientId: "1165243701073821766",
