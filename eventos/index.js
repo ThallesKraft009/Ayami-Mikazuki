@@ -28,7 +28,7 @@ module.exports = async(data) => {
   let { t, d } = data;
 
   if (t === "READY"){
-    console.log("Ayami Online")
+    console.log(c.cyan("Ayami Online"))
     connect(mongo);
 
     let cmdOld = await DiscordRequest(CALLBACK.interaction.commands(clientId),{
