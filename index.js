@@ -16,6 +16,15 @@ const payload = {
       $browser: 'chrome',
       $device: 'chrome',
     },
+    presence: {
+            activities: [{
+              name: "Pudim",
+              type: 0
+            }],
+            status: "dnd",
+            since: 91879201,
+            afk: false
+        },
   },
 };
 
